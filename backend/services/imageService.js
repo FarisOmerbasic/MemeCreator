@@ -9,11 +9,20 @@ function buildOverlay(width, height, params) {
     textColor = 'FFFFFF',
     strokeColor = '#000000',
     strokeWidth = 3,
-    textAlign = 'center',
+    textAlign,
     padding = 20,
     allCaps = true,
     watermarkImage,
     watermarkPosition = 'bottom-right'
     } = params
+
+    const finalTopText = allCaps ? topText.toUpperCase() : topText;
+    const finalBottomText = allCaps ? bottomText.toUpperCase() : bottomText;
+
+    const allowedAlignments = ['left', 'center', 'right',]
+    const finalAlign = allowedAlignments.includes(textAlign) ? textAlign: 'center';
+
+    
+
 
 }
