@@ -4,9 +4,9 @@ function buildOverlay(width, height, params) {
     const {
     topText = '',
     bottomText = '',
-    fontfamily = 'Impact',
+    fontFamily = 'Impact',
     fontSize = 64,
-    textColor = 'FFFFFF',
+    textColor = '#FFFFFF',
     strokeColor = '#000000',
     strokeWidth = 3,
     textAlign,
@@ -30,4 +30,38 @@ function buildOverlay(width, height, params) {
     x = width - padding
    }
 
+   const svg = `
+   <svg width="${width}" height="${height}">
+   <style>
+   .meme-text {
+   font-family: "${fontFamily}";
+   font-size: ${fontSize}px;
+   fill: "${textColor}";
+   stroke: "${strokeColor}";
+   stroke-width: ${strokeWidth}px;
+   text-anchor: "${finalAlign}";
+   paint-order: stroke;
 }
+   </style>
+   <text x="${x}" y="${padding + fontSize}" class="meme-text" dominant-baseline="hanging">${finalTopText}</text>
+   <text x="${x}" y="${height - padding}" class="meme-text" dominant-baseline="auto">${finalBottomText}</text>
+   </svg>`
+
+   return Buffer.from(svg);
+}
+
+    async function Generate(imageBuffer, params) {
+        const image = sharp(imageBuffer);
+        const metadata = await image.metadata();
+        const textOverlay = buildOverlay(metadata.width, metadata.height, params);
+        const finalImageBuffer = await sharp(imageBuffer)
+        .composite([{ input: textOverlay}])
+        .png({quality: 90})
+        .toBuffer();
+
+        return finalImageBuffer;
+    }
+    module.exports = {
+        Generate,
+    };
+
