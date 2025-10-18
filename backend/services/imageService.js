@@ -13,7 +13,8 @@ function buildOverlay(width, height, params) {
     padding = 20,
     allCaps = true,
     watermarkImage,
-    watermarkPosition = 'bottom-right'
+    watermarkPosition = 'bottom-right',
+    scaleDown = 0.25
     } = params
 
     const finalTopText = allCaps ? topText.toUpperCase() : topText;
