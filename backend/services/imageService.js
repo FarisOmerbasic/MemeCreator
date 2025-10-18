@@ -19,10 +19,14 @@ function buildOverlay(width, height, params) {
     const finalTopText = allCaps ? topText.toUpperCase() : topText;
     const finalBottomText = allCaps ? bottomText.toUpperCase() : bottomText;
 
-    const allowedAlignments = ['left', 'center', 'right',]
-    const finalAlign = allowedAlignments.includes(textAlign) ? textAlign: 'center';
+    const enumAlignments = ['left', 'center', 'right',]
+    const finalAlign = enumAlignments.includes(textAlign) ? textAlign: 'center';
 
-    
-
+   let x = width / 2;
+   if(finalAlign === 'left') {
+    x = padding;
+   } else if (finalAlign === 'right') {
+    x = width - padding
+   }
 
 }
