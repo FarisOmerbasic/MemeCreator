@@ -16,7 +16,7 @@ function updateConfig(id, payload) {
     }
 
     const updatedConfig = {...existingConfig, ...payload,id};
-    configs.set(id, updateConfig)
+    configs.set(id, updatedConfig)
     return updatedConfig;
 }
 

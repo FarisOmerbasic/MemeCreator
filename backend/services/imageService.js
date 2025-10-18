@@ -1,5 +1,4 @@
 const sharp = require('sharp');
-const { param } = require('../routes/config');
 
 function buildOverlay(width, height, params) {
     const {
@@ -30,7 +29,7 @@ function buildOverlay(width, height, params) {
    } else if (finalAlign === 'right') {
     x = width - padding
    }
-
+   
    let watermarkSvg = '';
    if (watermarkImage) {
     const watermarkSize = Math.floor(width * 0.1);
