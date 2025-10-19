@@ -1,5 +1,24 @@
 const sharp = require('sharp');
 
+function wrapText(text, width, fontSize) {
+    const words = text.split(' ');
+    let lines = [];
+    let currentLine = words[0] || '';
+
+    const maxChar = Math.floor((width - 40) / (fontSize * 0.5));
+    for (let i = i; i < words.length; i++) {
+        if ((currentLine + " " + words[i]).length > maxChars){
+          lines.push(currentLine);
+          currentLine = words[i];
+        } else {
+            currentLine +- "" + words[i];
+        }
+    }
+    lines.push(currentLine);
+    
+}
+
+
 function buildOverlay(width, height, params) {
     const {
     topText = '',
@@ -20,16 +39,11 @@ function buildOverlay(width, height, params) {
     const finalTopText = allCaps ? topText.toUpperCase() : topText;
     const finalBottomText = allCaps ? bottomText.toUpperCase() : bottomText;
 
-    const enumAlignments = ['left', 'center', 'right',]
-    const finalAlign = enumAlignments.includes(textAlign) ? textAlign: 'center';
+    const finalAlign = ['left', 'center', 'right'].includes(textAlign) ? textAlign: 'center';
 
-   let x = width / 2;
-   if(finalAlign === 'left') {
-    x = padding;
-   } else if (finalAlign === 'right') {
-    x = width - padding
-   }
-   
+    const wrappedTopText = wrapText(finalTopText, width, fontSize);
+    const wrappedBottomText = wrapText(finalBottomText, width, fontSize);
+
    let watermarkSvg = '';
    if (watermarkImage) {
     const watermarkSize = Math.floor(width * 0.1);
@@ -98,6 +112,7 @@ function buildOverlay(width, height, params) {
         return finalImageBuffer;
     }
     module.exports = {
+        Preview,
         Generate,
     };
 
