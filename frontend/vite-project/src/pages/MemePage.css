@@ -1,0 +1,26 @@
+.meme-main {
+    margin: 32px auto;
+    padding 24px 32px 32px 32x;
+    max-width: 1100px;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px #0002;
+    font-family: 'Arial, sans-serif';
+    color: #fff;
+    background: #181c24;
+}
+.meme-title {
+    font-size: 2rem;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    color: #4db2ff;
+}
+.meme-content {
+    display: flex;
+    gap: 32px;
+}
+.meme-controls-col {
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
