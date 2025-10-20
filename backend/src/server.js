@@ -1,10 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const configRouter = require('../routes/config');
 const memeRouter = require('../routes/meme');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 app.use('/api', configRouter);
 app.use('/api', memeRouter);
