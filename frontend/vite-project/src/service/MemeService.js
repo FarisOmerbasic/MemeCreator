@@ -1,9 +1,8 @@
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
 
-export async function previewMeme(file, config, watermarkFile = null) {
+export async function previewMeme(file, config) {
     const form = new FormData();
     form.append("image", file);
-    if (watermarkFile) form.append("watermarkImage", watermarkFile)
     form.append("config", JSON.stringify(config));
 
     const res = await fetch(`${API_BASE}/api/meme/preview`, {
@@ -19,10 +18,9 @@ export async function previewMeme(file, config, watermarkFile = null) {
     return URL.createObjectURL(blob);
 }
 
-export async function generateMeme(file, config, watermarkFile = null) {
+export async function generateMeme(file, config) {
     const form = new FormData();
     form.append("image", file);
-    if (watermarkFile) form.append("watermarkImage", watermarkFile)
     form.append("config", JSON.stringify(config));
 
     const res = await fetch(`${API_BASE}/api/meme/generate`, {

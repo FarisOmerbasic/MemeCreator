@@ -11,11 +11,7 @@ function parseParams(req) {
     params.padding = Math.max(0, Number(params.padding) || 20);
     params.scaleDown = Number(params.scaleDown || params.scale) || 0.05;
     params.allCaps = params.allCaps === 'true' || params.allCaps === true;
-    if (req.files && req.files.watermarkImage && req.files.watermarkImage[0]){
-       const wm = req.files.watermarkImage[0];
-       params.watermarkImage = `data:${wm.mimetype};base64,${wm.buffer.toString('base64')}`;
-
-    }
+   
     return params;
 }
 

@@ -1,0 +1,11 @@
+.watermark-upload {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.watermark-indicator {
+    display: block;
+    color: #4db2ff;
+    font-size: 13px;
+    margin-top: 4px;
+}
