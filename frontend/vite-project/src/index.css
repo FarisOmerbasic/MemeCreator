@@ -1,0 +1,26 @@
+:root{
+  --bg:#0f1720;
+  --card:#151823;
+  --panel:#1e2630;
+  --muted:#9aa6b3;
+  --accent:#4db2ff;
+  --input-bg:#12151a;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background:var(--bg);
+  color:#e6eef8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.app-frame{
+  max-width:1200px;
+  margin:28px auto;
+  padding:20px;
+  border-radius:12px;
+  background:linear-gradient(180deg,var(--card), rgba(0,0,0,0.02));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}

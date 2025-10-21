@@ -1,10 +1,9 @@
-import './SourceImage.css'
-
+import React from 'react'
+import '../Shared/SharedSourcePreview.css'
 export default function SourceImage({file}) {
     return ( 
-        <div className="source-image">
-            <span className="section-label">Source Image</span>
-            {file ? (<img src={URL.createObjectURL(file)} alt="source" className="source" />): (
+        <div className="image-fit-container">
+            {file ? (<img src={URL.createObjectURL(file)} alt="source" className="image-fit" />): (
                 <div className="source-placeholder">No image</div>
             )}
         </div>

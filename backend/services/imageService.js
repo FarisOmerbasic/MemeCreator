@@ -2,19 +2,25 @@ const sharp = require('sharp');
 const overlayService = require('./overlayService');
 
 async function preview(imageBuffer, params = {}) {
-    const scale = Math.max(0.01, Math.min(0.25, Number(params.scaledown) || 0.05));
-    const image = sharp(imageBuffer);
-    const {width, height} = await image.metadata();
-    const newWidth = Math.round(width * scale)
-    const newHeight = Math.round(height * scale);
-    const scaledParams = overlayService.scaleOverlayParams(params, scale)
-    const overlay = overlayService.buildOverlay(newWidth, newHeight, scaledParams);
+    const requested = typeof params.scaleDown !== 'undefined' ? params.scaleDown : params.scaledown
+    const scale = Math.max(0.01, Math.min(0.25, Number(requested) || 0.05))
+    const dpr = Math.max(1, Math.floor(Number(params.dpr) || 1))
+    const image = sharp(imageBuffer)
+    const metadata = await image.metadata();
+    const {width,height} = metadata;
+    const previewWidth = Math.max(1, Math.round(width * scale));
+    const previewHeight = Math.max(1, Math.round(height * scale));
+    const outWidth = previewWidth * dpr;
+    const outHeight = previewHeight * dpr;
+    const scaledParamsForOverlay = overlayService.scaleOverlayParams(params, scale * dpr)
+    const overlay = overlayService.buildOverlay(outWidth, outHeight, scaledParamsForOverlay);
 
-    return await sharp(imageBuffer)
-     .resize(newWidth, newHeight)
+    const outBuffer = await sharp(imageBuffer)
+     .resize(outWidth, outHeight)
      .composite([{input: overlay, blend: 'over'}])
      .png()
      .toBuffer();
+     return {buffer: outBuffer, width: previewWidth, height: previewHeight}
 }
 
 async function generate(imageBuffer, params = {}) {
