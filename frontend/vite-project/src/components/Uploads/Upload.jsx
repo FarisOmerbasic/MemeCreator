@@ -1,21 +1,18 @@
-import { useState, useRef } from "react"
+import {  useRef } from "react"
 import "./Upload.css";
 
 export default function Upload({onSelect}) {
-    const [preview, setPreview] = useState(null);
     const inputRef = useRef();
 
     function handleChange(e) {
         const file = e.target.files[0];
         onSelect(file);
-        setPreview(file ? URL.createObjectURL(file) : null);
     }
 
     function handleDrop(e) {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
         onSelect(file);
-        setPreview(file ? URL.createObjectURL(file) : null);
     }
     return (
      <div className="upload"
@@ -33,7 +30,6 @@ export default function Upload({onSelect}) {
         Drag & drop image here<br/>
         <span className="choose-file-btn">Choose file</span>
      </div>
-     {preview && <img src={preview} alt="preview" className="upload-preview"></img>}
      </div>
     )
 }

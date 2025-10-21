@@ -1,10 +1,10 @@
 .meme-main {
     margin: 32px auto;
-    padding 24px 32px 32px 32x;
+    padding 24px 32px 32px 32px;
     max-width: 1100px;
     border-radius: 16px;
     box-shadow: 0 2px 16px #0002;
-    font-family: 'Arial, sans-serif';
+    font-family: Arial, sans-serif;
     color: #fff;
     background: #181c24;
 }
@@ -21,6 +21,12 @@
 .meme-controls-col {
     flex: 0 0 320px;
     display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.meme-preview-col {
+    display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 18px;
 }
