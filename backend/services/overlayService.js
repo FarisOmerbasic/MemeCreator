@@ -52,9 +52,10 @@ function buildOverlay(width, height, params = {}) {
   const bottomLines = wrapIntoLines(bottom, Math.max(1, maxChars));
 
   const lineHeight = Math.round(fontSize * 1.2);
-  const topStartY = padding + fontSize;
+  const topStartY = padding;
+  
   const bottomTotalHeight = bottomLines.length * lineHeight;
-  const bottomStartY = height - padding - (bottomLines.length > 0 ? (bottomTotalHeight - lineHeight) : 0);
+  const bottomStartY = height - padding - bottomTotalHeight;
 
   const anchor = textAlign === 'left' ? 'start' : textAlign === 'right' ? 'end' : 'middle';
   const xPos = textAlign === 'left' ? padding : textAlign === 'right' ? width - padding : Math.round(width / 2);
@@ -83,7 +84,7 @@ function buildOverlay(width, height, params = {}) {
         stroke: ${strokeColor};
         stroke-width: ${strokeWidth}px;
         paint-order: stroke;
-        dominant-baseline: hanging;
+        dominant-baseline: text-before-edge;
       }
     </style>
     <text class="meme-text" x="${xPos}" y="${topStartY}" text-anchor="${anchor}">
