@@ -1,11 +1,29 @@
 .watermark-upload {
-    margin-top: 10px;
-    font-size: 13px;
+  margin-top: 16px;
 }
-
-.watermark-indicator {
-    display: block;
-    color: #4db2ff;
-    font-size: 13px;
-    margin-top: 4px;
+.watermark-title {
+  color: #b0c4de;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.watermark-zone {
+  border: 2px dashed #4db2ff;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  background: #1e2330;
+}
+.watermark-text {
+  color: #b0c4de;
+  font-size: 14px;
+}
+.watermark-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: #4db2ff;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
 }
