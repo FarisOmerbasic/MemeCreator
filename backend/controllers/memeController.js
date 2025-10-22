@@ -7,7 +7,7 @@ function parseParams(req) {
         delete params.config;
     }
     params.fontSize = Math.max(8, Number(params.fontSize) || 64);
-    params.strokedWidth = Math.max(0, Number(params.strokedWidth) || 3);
+    params.strokeWidth = Math.max(0, Number(params.strokeWidth) || 3);
     params.padding = Math.max(0, Number(params.padding) || 20);
     const rawScale = Number(params.scaleDown || params.scale) || 0.05;
     params.scaleDown = Math.max(0.01, Math.min(0.25, rawScale));
