@@ -4,7 +4,12 @@ import "./MemePage.css";
 import WatermarkUpload from "../components/Watermark/WatermarkUpload";
 import SourceImage from "../components/Source/SourceImage";
 import Preview from "../components/Preview/Preview";
-import {previewMeme} from "../service/MemeService"
+import {generateMeme, previewMeme} from "../service/MemeService"
+import TextControls from "../components/TextControls/TextControls";
+import TypographyControls from "../components/TypographyControls/TypographyControls";
+import AlignmentControls from "../components/AlignmentControls/AlignmentControls";
+import GenerateButton from "../components/GenerateButton/GenerateButton";
+import downloadBlob from "../service/downloadBlob";
 
 export default function MemePage() {
     const [file, setFile] = useState(null);
@@ -25,6 +30,7 @@ export default function MemePage() {
     })
     const [previewUrl, setPreviewUrl] = useState(null);
     const [loadingPreview, setLoadingPreview] = useState(false);
+    const [previewSize, setPreviewSize] = useState({width: null, height: null})
 
     useEffect(() => {
         if (!file) {
@@ -34,16 +40,28 @@ export default function MemePage() {
         setLoadingPreview(true);
         const id = setTimeout(async () => {
             try {
-                const url = await previewMeme(file, config);
-                setPreviewUrl(url);
+                  const result = await previewMeme(file,config);
+                setPreviewUrl(result.url);
+                setPreviewSize({width: result.width, height: result.height});
             } catch {
                 setPreviewUrl(null)
+                setPreviewSize({width: null, height: null});
             } finally {
                 setLoadingPreview(false);
             }
         }, 300);
         return () => clearTimeout(id);
     }, [file, JSON.stringify(config)])
+
+    async function handleGenerate() {
+        if (!file) return;
+        try {
+            const blob = await generateMeme(file, config);
+            downloadBlob(blob, "meme.png");
+        } catch {
+            alert("Failed to download image");
+        }
+    }
 
     return (
 
@@ -52,12 +70,27 @@ export default function MemePage() {
                 <div className="meme-content">
                     <div className="meme-controls-col">
                         <Upload onSelect={setFile}/>
-                        {file && <p>Selected: {file.name}</p>}
                         <WatermarkUpload config={config} setConfig={setConfig}/>
+                        <TextControls config={config} setConfig={setConfig}/>
+                        <TypographyControls config={config} setConfig={setConfig}/>
+                        <AlignmentControls config={config} setConfig={setConfig}/>
                         </div>
                         <div className="meme-preview-col">
-                            <SourceImage file={file}/>
-                            <Preview url={previewUrl} loading={loadingPreview} watermarkFile={config.watermarkImage}/>
+                            <div>
+                                <span className="section">Source Image</span>
+                                <SourceImage file={file}/>
+                            </div>
+                            <div>
+                                <span className="section">Live Preview</span>
+                           <Preview
+                           url={previewUrl} loading={loadingPreview}
+                           watermarkFile={config.watermarkImage}
+                           width={previewSize.width} height={previewSize.height}/>
+                            </div>
+                            <div className="meme-action">
+                                <GenerateButton onClick={handleGenerate} disabled={!file}/>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

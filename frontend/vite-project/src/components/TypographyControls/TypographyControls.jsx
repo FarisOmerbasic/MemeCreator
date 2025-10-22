@@ -32,19 +32,28 @@ export default function TypographyControls({config,setConfig}) {
                 <div className="control-row">
                     <div className="input-group">
                         <label>Text Color</label>
+                        <div className="color-picker-wrapper">
                         <input
-                            type="color"
-                            value={config.textColor}
-                            onChange={e => u("textColor", e.target.value)}
-                        />
+                            type="color" value={config.textColor}
+                            onChange={e => u("textColor", e.target.value)}/>
+                        <input type="text" className="color-hex" value={config.textColor} 
+                        onChange={e => u("textColor", e.target.value)} placeholder="#FFFFFF"/>
+                    </div>
                     </div>
                     <div className="input-group">
                         <label>Stroke Color</label>
+                        <div className="color-picker-wrapper">
                         <input
                             type="color" value={config.strokeColor}
                             onChange={e => u("strokeColor", e.target.value)}/>
+                        <input
+                        type="text" value={config.strokeColor}
+                        onChange={e => u("strokeColor", e.target.value)} className="color-hex" placeholder="#FFFFFF"/>
                     </div>
-                    <div className="input-group">
+                    </div>
+                    </div>
+                    <div className="control-row">
+                        <div className="input-group">
                         <label>Stroke Width</label>
                         <div className="slider-group">
                         <input 
@@ -57,5 +66,6 @@ export default function TypographyControls({config,setConfig}) {
             </div>
         </div>
     </div>
+   
     )
 }
