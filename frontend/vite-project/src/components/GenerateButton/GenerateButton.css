@@ -15,7 +15,7 @@
     transition: background 0.2s;
 }
 .btn-generate:disabled{
-    background: #444;
+    background: #1a8cff;
     cursor: not-allowed;
 }
 .btn-generate:hover:not(:disabled){
