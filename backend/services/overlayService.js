@@ -1,5 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+
+let embeddedFontCss = '';
+let embeddedFonts = [];
+
+try {
+  const fontsDir = path.join(__dirname, '..', 'fonts');
+  if (fs.existsSync(fontsDir)) {
+    const files = fs.readdirSync(fontsDir).filter(f => f.toLowerCase().endsWith('.ttf'));
+    for (const file of files) {
+      try {
+        const filePath = path.join(fontsDir, file);
+        const base = path.parse(file).name;
+        const simplified = base.replace(/[^a-z0-9]/gi, '').toLowerCase();
+        const displayName = base.replace(/[-_]/g, ' ').toLowerCase();
+        const embeddedFamily = `Embedded_${simplified}`;
+        const data = fs.readFileSync(filePath);
+        const b64 = data.toString('base64');
+        embeddedFontCss += `@font-face{font-family: "${embeddedFamily}"; src: url("data:font/ttf;base64,${b64}") format("truetype"); font-weight: normal; font-style: normal;}\n`;
+        embeddedFonts.push({ simplified, embeddedFamily, displayName });
+      } catch (e) {}
+    }
+  }
+} catch (e) {}
+
 function scaleOverlayParams(params, scale) {
-  return {...params, fontSize: Math.max(8, Math.round((Number(params.fontSize) || 64) * scale)),
+  return {
+    ...params,
+    fontSize: Math.max(8, Math.round((Number(params.fontSize) || 64) * scale)),
     strokeWidth: Math.max(0, Math.round((Number(params.strokeWidth) || 3) * scale)),
     padding: Math.max(0, Math.round((Number(params.padding) || 20) * scale)),
   };
@@ -24,6 +52,17 @@ function wrapIntoLines(text, maxChars) {
   }
   if (current) lines.push(current);
   return lines;
+}
+
+function findEmbeddedForRequested(requested) {
+  if (!requested) return null;
+  const rqSimpl = requested.replace(/[^a-z0-9]/gi, '').toLowerCase();
+  return embeddedFonts.find(f =>
+    rqSimpl.includes(f.simplified) ||
+    f.simplified.includes(rqSimpl) ||
+    requested.toLowerCase().includes(f.displayName) ||
+    f.displayName.includes(requested.toLowerCase())
+  ) || null;
 }
 
 function buildOverlay(width, height, params = {}) {
@@ -53,7 +92,7 @@ function buildOverlay(width, height, params = {}) {
 
   const lineHeight = Math.round(fontSize * 1.2);
   const topStartY = padding;
-  
+
   const bottomTotalHeight = bottomLines.length * lineHeight;
   const bottomStartY = height - padding - bottomTotalHeight;
 
@@ -74,11 +113,23 @@ function buildOverlay(width, height, params = {}) {
     watermarkSvg = `<image href="${watermarkImage}" x="${wx}" y="${wy}" width="${watermarkSize}" height="${watermarkSize}" />`;
   }
 
+  const requested = String(fontFamily || '').trim();
+  const matched = findEmbeddedForRequested(requested);
+  console.info(`[overlayService] requested="${requested}" matched=${matched ? (matched.displayName || matched.embeddedFamily) : 'none'}`);
+  let fontFamilyCss;
+  if (matched) {
+    fontFamilyCss = `"${matched.embeddedFamily}", "${requested}", Impact, "Arial Black", sans-serif`;
+  } else {
+    const embeddedFallback = embeddedFonts.map(f => `"${f.embeddedFamily}"`).join(',');
+    fontFamilyCss = `"${requested}", ${embeddedFallback ? embeddedFallback + ',' : ''} Impact, "Arial Black", sans-serif`;
+  }
+
   const svg = `
   <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
     <style>
+      ${embeddedFontCss}
       .meme-text {
-        font-family: "${fontFamily}", Impact, Arial Black, sans-serif;
+        font-family: ${fontFamilyCss};
         font-size: ${fontSize}px;
         fill: ${textColor};
         stroke: ${strokeColor};

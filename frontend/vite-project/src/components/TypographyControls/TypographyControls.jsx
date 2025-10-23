@@ -3,7 +3,8 @@ import './TypographyControls.css'
 
 export default function TypographyControls({config,setConfig}) {
     const u = (k, v) => setConfig({...config, [k]: v})
-    
+    const AVAILABLE_FONTS = ['Anton', 'Oswald', 'Roboto', 'Open Sans', 'Impact']
+
     return ( 
         <div className="typography-section">
             <h3 className="section-title">Typography</h3>
@@ -11,10 +12,8 @@ export default function TypographyControls({config,setConfig}) {
              <div className="control-row">
                 <div className="input-group">
                     <label>Font Family</label>
-                    <select value={config.fontFamily} onChange={e => u("fontFamily", e.target.value)}>
-                      <option value="Impact">Impact</option>
-                      <option value="Arial Black">Arial Black</option>
-                      <option value="Arial">Arial</option>
+                    <select value={config.fontFamily || 'Impact'} onChange={e => u("fontFamily", e.target.value)}>
+                     {AVAILABLE_FONTS.map(f => <option key={f} value={f}>{f}</option>)}
                     </select>
                     </div>
                     <div className="input-group">
