@@ -10,6 +10,7 @@ import TypographyControls from "../components/TypographyControls/TypographyContr
 import AlignmentControls from "../components/AlignmentControls/AlignmentControls";
 import GenerateButton from "../components/GenerateButton/GenerateButton";
 import downloadBlob from "../service/downloadBlob";
+import Header from "../components/Authentication/Header";
 
 export default function MemePage() {
     const [file, setFile] = useState(null);
@@ -66,6 +67,7 @@ export default function MemePage() {
     return (
 
         <div className="meme-main">
+            <Header />
             <h1 className="meme-title">Meme Creator</h1>
                 <div className="meme-content">
                     <div className="meme-controls-col">

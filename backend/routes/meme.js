@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const memeController = require('../controllers/memeController');
+const auth = require ('../middleware/auth');
 
 const upload = multer({ storage: multer.memoryStorage(), limits: {
   fileSize: 10 * 1024 * 1024,
@@ -15,6 +16,6 @@ fileFilter: (req, file, cb) => {
 ]);
 
 router.post('/meme/preview', upload, memeController.preview);
-router.post('/meme/generate', upload, memeController.generate);
+router.post('/meme/generate',auth, upload, memeController.generate);
 
 module.exports = router;

@@ -12,6 +12,12 @@ app.use(express.urlencoded({ extended: true}));
 app.use('/api', configRouter);
 app.use('/api', memeRouter);
 
+app.use((err, req, res, next) => {
+   if(err && err.name === 'Unathorized'){
+      return res.status(401).json({message: 'Missing or invalid token'});
+   } next(err);
+})
+
 const PORT = process.env.PORT || 5000;
 const DB_HOST = process.env.DB_HOST || 'mssql';
 const DB_PORT =Number(process.env.DB_PORT || 1433);
