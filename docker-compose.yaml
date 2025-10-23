@@ -6,8 +6,8 @@ services:
     env_file:
       - ./.env
     environment:
-      - PORT=5000
       - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
@@ -33,15 +33,14 @@ services:
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: memecreator-mssql
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
+      - SA_PASSWORD=${DB_PASS}
     ports:
       - "1433:1433"
     volumes:
       - mssql-data:/var/opt/mssql
-    user: root
+    restart: unless-stopped
 
 volumes:
   mssql-data:
