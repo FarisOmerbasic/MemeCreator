@@ -4,12 +4,11 @@ import "./MemePage.css";
 import WatermarkUpload from "../components/Watermark/WatermarkUpload";
 import SourceImage from "../components/Source/SourceImage";
 import Preview from "../components/Preview/Preview";
-import {generateMeme, previewMeme} from "../service/MemeService"
+import {previewMeme} from "../service/MemeService"
 import TextControls from "../components/TextControls/TextControls";
 import TypographyControls from "../components/TypographyControls/TypographyControls";
 import AlignmentControls from "../components/AlignmentControls/AlignmentControls";
 import GenerateButton from "../components/GenerateButton/GenerateButton";
-import downloadBlob from "../service/downloadBlob";
 import Header from "../components/Authentication/Header";
 
 export default function MemePage() {
@@ -54,14 +53,12 @@ export default function MemePage() {
         return () => clearTimeout(id);
     }, [file, JSON.stringify(config)])
 
-    async function handleGenerate() {
-        if (!file) return;
-        try {
-            const blob = await generateMeme(file, config);
-            downloadBlob(blob, "meme.png");
-        } catch {
-            alert("Failed to download image");
-        }
+    const buildFormData = () => {
+        const fd = new FormData();
+        fd.append('config', JSON.stringify(config));
+        if (file) fd.append('image', file);
+        if (config.watermarkImage) fd.append('watermarkImage', config.watermarkImage);
+        return fd;
     }
 
     return (
@@ -90,7 +87,7 @@ export default function MemePage() {
                            width={previewSize.width} height={previewSize.height}/>
                             </div>
                             <div className="meme-action">
-                                <GenerateButton onClick={handleGenerate} disabled={!file}/>
+                                <GenerateButton formData={buildFormData()} disabled={!file}/>
                             </div>
                             
                         </div>

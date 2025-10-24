@@ -7,7 +7,7 @@ export default function UserProfile() {
     if (isLoading || !isAuthenticated) return null;
   return (
     <div className="profile">
-      <span>{user.name || user.email}</span>
+      <span>{user.email}</span>
     </div>
   )
 }
