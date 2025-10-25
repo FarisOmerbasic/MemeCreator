@@ -13,7 +13,7 @@ app.use('/api', configRouter);
 app.use('/api', memeRouter);
 
 app.use((err, req, res, next) => {
-   if(err && err.name === 'Unathorized'){
+   if(err && err.name === 'UnauthorizedError'){
       return res.status(401).json({message: 'Missing or invalid token'});
    } next(err);
 })
