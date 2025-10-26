@@ -18,12 +18,12 @@ app.use((err, req, res, next) => {
    } next(err);
 })
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 const DB_HOST = process.env.DB_HOST || 'mssql';
 const DB_PORT =Number(process.env.DB_PORT || 1433);
 
 console.log(`[startup] DB_HOST=${DB_HOST} DB_PORT=${DB_PORT}`);
 
-app.listen(PORT, () => {
-   console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running and listening on 0.0.0.0:${PORT}`);
 });
