@@ -48,15 +48,6 @@ function wrapIntoLines(text, maxChars) {
   return lines;
 }
 
-function escapeXml(text) {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-}
-
 function buildOverlay(width, height, params = {}) {
   const {
     topText = '',

@@ -38,5 +38,47 @@ One-click meme generation and download
 The frontend uses `service/downloadBlob.js` to trigger browser download.
 The simple GenerateButton sends formData, receives a blob and calls `downloadBlob(blob,filename)`; filename is derived from the uploaded image or server headers.
 
-## DDocker
-To run contrainers using docker-compose run this command docker compose up -d --build
+
+## Local development
+Backend
+cd backend
+npm run dev
+
+Frontend
+cd frontend/vite-project
+npm run dev
+
+## Run with Docker
+Docker-compose file is provided that is docker-compose.yaml
+docker compose up -d --build (Create .env files before running)
+To stop and remove type docker compose down
+
+## How was deployment done
+
+1) Authenticate Docker to GCR
+gcloud auth configure-docker
+
+2) Build frontend image 
+- Must provide Vite build args so frontend uses correct API and Auth0 values:
+docker build --build-arg VITE_API_BASE="" --build-arg VITE_AUTH0_DOMAIN="" --build-arg VITE_AUTH0_CLIENT_ID="" --build-arg VITE_AUTH0_AUDIENCE="" -t gcr.io/pristine-ally-471609-e1/meme-frontend:latest -f frontend/Dockerfile frontend
+
+
+3) Push frontend image
+docker push gcr.io/pristine-ally-471609-e1/meme-frontend:latest
+
+4) Deploy frontend to Cloud Run
+```powershell
+gcloud run deploy memecreator-frontend --image gcr.io/pristine-ally-471609-e1/meme-frontend:latest --region=europe-west8 --platform=managed --allow-unauthenticated
+```
+
+5) Build & push backend image
+docker build -t gcr.io/pristine-ally-471609-e1/meme-backend:latest -f backend/Dockerfile backend
+docker push gcr.io/pristine-ally-471609-e1/meme-backend:latest
+```
+
+6) Deploy backend to Cloud Run
+gcloud run deploy memecreator-backend --image gcr.io/pristine-ally-471609-e1/meme-backend:latest --region=europe-west8 --platform=managed --allow-unauthenticated
+```
+
+7) After successful deploy you will see service URLs in the CLI output
+
