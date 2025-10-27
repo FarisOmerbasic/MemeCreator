@@ -12,11 +12,10 @@ async function preview(imageBuffer, params = {}) {
   const outHeight = previewHeight * dpr;
   const overlay = overlayService.buildOverlay(outWidth, outHeight, params);
 
-  const format = (params.outputFormat || 'png').toLowerCase(); 
   const outBuffer = await sharp(imageBuffer)
     .resize(outWidth, outHeight)
     .composite([{ input: overlay, blend: 'over' }])
-    [format]({ quality: 90 }) 
+    [format === 'jpg' ? 'jpeg' : format]({ quality: 90 })
     .toBuffer();
 
   return { buffer: outBuffer, width: previewWidth, height: previewHeight };
@@ -27,10 +26,10 @@ async function generate(imageBuffer, params = {}) {
   const { width, height } = await image.metadata();
   const overlay = overlayService.buildOverlay(width, height, params);
 
-  const format = (params.outputFormat || 'png').toLowerCase();
+ const format = (params.outputFormat || 'png').toLowerCase();
   return sharp(imageBuffer)
     .composite([{ input: overlay, blend: 'over' }])
-    [format]({ quality: 90 })
+    [format === 'jpg' ? 'jpeg' : format]({ quality: 90 }) 
     .toBuffer();
 }
 
