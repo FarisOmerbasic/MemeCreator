@@ -56,9 +56,11 @@ To stop and remove type docker compose down
 ## How was deployment done
 
 1) Authenticate Docker to GCR
+```powershell
 gcloud auth configure-docker
 
 2) Build frontend image 
+```powershell
 - Must provide Vite build args so frontend uses correct API and Auth0 values:
 docker build --build-arg VITE_API_BASE="" --build-arg VITE_AUTH0_DOMAIN="" --build-arg VITE_AUTH0_CLIENT_ID="" --build-arg VITE_AUTH0_AUDIENCE="" -t gcr.io/pristine-ally-471609-e1/meme-frontend:latest -f frontend/Dockerfile frontend
 
@@ -71,12 +73,14 @@ docker push gcr.io/pristine-ally-471609-e1/meme-frontend:latest
 gcloud run deploy memecreator-frontend --image gcr.io/pristine-ally-471609-e1/meme-frontend:latest --region=europe-west8 --platform=managed --allow-unauthenticated
 ```
 
-5) Build & push backend image
+5) Build & push backend 
+```powershell
 docker build -t gcr.io/pristine-ally-471609-e1/meme-backend:latest -f backend/Dockerfile backend
 docker push gcr.io/pristine-ally-471609-e1/meme-backend:latest
 ```
 
 6) Deploy backend to Cloud Run
+```powershell
 gcloud run deploy memecreator-backend --image gcr.io/pristine-ally-471609-e1/meme-backend:latest --region=europe-west8 --platform=managed --allow-unauthenticated
 ```
 
