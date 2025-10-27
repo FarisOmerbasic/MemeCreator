@@ -24,6 +24,9 @@ exports.preview = async (req, res) => {
     if (req.query?.dpr) params.dpr = Math.max(1, Math.floor(Number(req.query.dpr) || 1))
     const out = await imageService.preview(req.files.image[0].buffer, params);
     res.set('Content-Type', 'image/png' || 'image/jpeg' )
+    const format = (params.outputFormat || 'png').toLowerCase();
+    const contentType = format === 'jpeg' || format === 'jpg' ? 'image/jpeg' : 'image/png';
+    res.set('Content-Type', contentType)
     .set('Preview-Width', String(out.width))
     .set('Preview-Height', String(out.height))
     .send(out.buffer)
@@ -38,7 +41,9 @@ exports.generate = async (req, res) => {
   try {
     const params = parseParams(req);
     const out = await imageService.generate(req.files.image[0].buffer, params);
-    res.set('Content-Type', 'image/png' || 'image/jpeg').send(out);
+    const format = (params.outputFormat || 'png').toLowerCase();
+    const contentType = format === 'jpeg' || format === 'jpg' ? 'image/jpeg' : 'image/png';
+    res.set('Content-Type', contentType);
   } catch (err) {
     console.error('Generate error', err);
     res.status(500).json({ error: 'Cannot generate image' });

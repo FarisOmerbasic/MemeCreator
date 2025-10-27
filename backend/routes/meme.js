@@ -9,7 +9,8 @@ const upload = multer({ storage: multer.memoryStorage(), limits: {
   fieldSize: 10 * 1024 * 1024,
 },
 fileFilter: (req, file, cb) => {
-  cb(null, true);
+  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') cb(null, true);
+  else cb(new Error('Only .png and .jpeg format allowed!'), false);
 }}).fields([
   { name: 'image', maxCount: 1 },
   { name: 'watermarkImage', maxCount: 1 }
