@@ -58,15 +58,18 @@ To stop and remove type docker compose down
 1) Authenticate Docker to GCR
 ```powershell
 gcloud auth configure-docker
+```
 
 2) Build frontend image 
 ```powershell
 - Must provide Vite build args so frontend uses correct API and Auth0 values:
 docker build --build-arg VITE_API_BASE="" --build-arg VITE_AUTH0_DOMAIN="" --build-arg VITE_AUTH0_CLIENT_ID="" --build-arg VITE_AUTH0_AUDIENCE="" -t gcr.io/pristine-ally-471609-e1/meme-frontend:latest -f frontend/Dockerfile frontend
-
+```
 
 3) Push frontend image
+```powershell
 docker push gcr.io/pristine-ally-471609-e1/meme-frontend:latest
+```
 
 4) Deploy frontend to Cloud Run
 ```powershell
