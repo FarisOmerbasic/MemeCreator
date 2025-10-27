@@ -16,6 +16,6 @@ fileFilter: (req, file, cb) => {
 ]);
 
 router.post('/meme/preview', upload, memeController.preview);
-router.post('/meme/generate',auth, upload, memeController.generate);
+router.post('/meme/generate', auth, upload, memeController.generate);
 
 module.exports = router;
