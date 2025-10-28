@@ -19,7 +19,7 @@ export default function GenerateButton({onClick, disabled, formData}) {
         authorizationParams: { audience: import.meta.env.VITE_AUTH0_AUDIENCE }
       })
 
-      const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+      const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:8080';
       const response = await fetch(`${apiBase}/api/meme/generate`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },

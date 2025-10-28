@@ -12,6 +12,7 @@ async function preview(imageBuffer, params = {}) {
   const outHeight = previewHeight * dpr;
   const overlay = overlayService.buildOverlay(outWidth, outHeight, params);
 
+  const format = (params.outputFormat || 'png').toLowerCase();
   const outBuffer = await sharp(imageBuffer)
     .resize(outWidth, outHeight)
     .composite([{ input: overlay, blend: 'over' }])

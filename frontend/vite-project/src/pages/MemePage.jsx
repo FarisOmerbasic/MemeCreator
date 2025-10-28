@@ -56,8 +56,7 @@ export default function MemePage() {
     const buildFormData = () => {
         const fd = new FormData();
         fd.append('config', JSON.stringify(config));
-        if (file) fd.append('image', file);
-        if (config.watermarkImage) fd.append('watermarkImage', config.watermarkImage);
+        if (file) fd.append('image', file)
         return fd;
     }
 
@@ -83,7 +82,7 @@ export default function MemePage() {
                                 <span className="section">Live Preview</span>
                            <Preview
                            url={previewUrl} loading={loadingPreview}
-                           watermarkFile={config.watermarkImage}
+                           watermarkFile={config.watermarkImage} config={config}
                            width={previewSize.width} height={previewSize.height}/>
                             </div>
                             <div className="meme-action">

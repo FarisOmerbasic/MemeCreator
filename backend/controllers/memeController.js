@@ -43,6 +43,7 @@ exports.generate = async (req, res) => {
     const format = (params.outputFormat || 'png').toLowerCase();
     const contentType = format === 'jpeg' || format === 'jpg' ? 'image/jpeg' : 'image/png';
     res.set('Content-Type', contentType);
+    return res.send(out);
   } catch (err) {
     console.error('Generate error', err);
     res.status(500).json({ error: 'Cannot generate image' });
