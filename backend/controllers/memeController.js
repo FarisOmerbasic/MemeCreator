@@ -23,7 +23,6 @@ exports.preview = async (req, res) => {
     const params = parseParams(req);
     if (req.query?.dpr) params.dpr = Math.max(1, Math.floor(Number(req.query.dpr) || 1))
     const out = await imageService.preview(req.files.image[0].buffer, params);
-    res.set('Content-Type', 'image/png' || 'image/jpeg' )
     const format = (params.outputFormat || 'png').toLowerCase();
     const contentType = format === 'jpeg' || format === 'jpg' ? 'image/jpeg' : 'image/png';
     res.set('Content-Type', contentType)
