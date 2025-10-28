@@ -46,21 +46,35 @@ function buildOverlay(width, height, params = {}) {
     strokeColor = '#000000',
     strokeWidth = 4,
     padding = 20,
+    allCaps = false,
+    textAlign = 'center',
   } = params;
 
-  const top = topText.toUpperCase();
-  const bottom = bottomText.toUpperCase();
+  const top = allCaps ? topText.toUpperCase() : topText;
+  const bottom = allCaps ? bottomText.toUpperCase() : bottomText;
 
   const approxCharWidth = fontSize * 0.5;
   const maxChars = Math.floor((width - padding * 2) / approxCharWidth);
 
   const topLines = wrapIntoLines(top, maxChars);
   const bottomLines = wrapIntoLines(bottom, maxChars);
-
+ 
   const lineHeight = Math.round(fontSize * 1.2);
+  
+  let xPos, textAnchor;
+  if (textAlign === 'left') {
+    xPos = padding;
+    textAnchor = 'start';
+  } else if (textAlign === 'right') {
+    xPos = width - padding;
+    textAnchor = 'end';
+  } else {
+    xPos = Math.round(width / 2);
+    textAnchor = 'middle';
+  }
+
   const topStartY = padding;
   const bottomStartY = height - padding - bottomLines.length * lineHeight;
-  const xPos = Math.round(width / 2);
 
   const toTspans = lines => lines
     .map((ln, i) => `<tspan x="${xPos}" dy="${i === 0 ? '0' : '1.2em'}">${escapeXml(ln)}</tspan>`)
@@ -81,8 +95,8 @@ function buildOverlay(width, height, params = {}) {
       font-weight: bold;
     }
   </style>
-  <text class="meme-text" x="${xPos}" y="${topStartY}" text-anchor="middle">${toTspans(topLines)}</text>
-  <text class="meme-text" x="${xPos}" y="${bottomStartY}" text-anchor="middle">${toTspans(bottomLines)}</text>
+  <text class="meme-text" x="${xPos}" y="${topStartY}" text-anchor="${textAnchor}">${toTspans(topLines)}</text>
+  <text class="meme-text" x="${xPos}" y="${bottomStartY}" text-anchor="${textAnchor}">${toTspans(bottomLines)}</text>
 </svg>`;
 
   return Buffer.from(svg);

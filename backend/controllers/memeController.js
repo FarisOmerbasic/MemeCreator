@@ -12,7 +12,12 @@ function parseParams(req) {
     const rawScale = Number(params.scaleDown || params.scale) || 0.05;
     params.scaleDown = Math.max(0.01, Math.min(0.25, rawScale));
     params.allCaps = params.allCaps === 'true' || params.allCaps === true;
-   
+    params.textAlign = params.textAlign || 'center';
+    params.watermarkPosition = params.watermarkPosition || 'bottom-right';
+
+    if (req.files?.watermarkImage?.[0]) {
+      params.watermarkImageBuffer = req.files.watermarkImage[0].buffer;
+    }
     if (params.dpr) params.dpr = Math.max(1, Math.floor(Number(params.dpr) || 1));
     return params;
 }
