@@ -3,6 +3,9 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8080";
 export async function previewMeme(file, config) {
     const form = new FormData();
     form.append("image", file);
+    if (config.watermarkImageFile) {
+    form.append("watermarkImage", config.watermarkImageFile);
+  }
     form.append("config", JSON.stringify(config));
 
     const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
@@ -27,6 +30,9 @@ export async function previewMeme(file, config) {
 export async function generateMeme(file, config) {
     const form = new FormData();
     form.append("image", file);
+    if (config.watermarkImageFile) {
+    form.append("watermarkImage", config.watermarkImageFile);
+  }
     form.append("config", JSON.stringify(config));
 
     const res = await fetch(`${API_BASE}/api/meme/generate`, {

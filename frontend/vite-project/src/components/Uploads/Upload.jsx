@@ -24,7 +24,6 @@ export default function Upload({onSelect}) {
      ref={inputRef}
      type="file"
      accept="image/png, image/jpeg"
-     style={{display:"none"}}
      onChange={handleChange}/>
      <div className="upload-text">
         Drag & drop image here<br/>

@@ -17,7 +17,7 @@ async function preview(imageBuffer, params = {}) {
   const scale = Math.max(0.01, Math.min(0.25, Number(params.scaleDown || params.scale) || 0.05));
   const dpr = Math.max(1, Math.floor(Number(params.dpr) || 1));
   const image = sharp(imageBuffer);
-  const { width, height } = await image.metadata();
+  const { width, height, format: originalFormat } = await image.metadata();
   const previewWidth = Math.round(width * scale);
   const previewHeight = Math.round(height * scale);
   const outWidth = previewWidth * dpr;
@@ -30,11 +30,12 @@ async function preview(imageBuffer, params = {}) {
     compositeLayers.push(watermarkLayer);
   }
 
-  const format = (params.outputFormat || 'png').toLowerCase();
+  const outputFormat = (params.outputFormat || originalFormat || 'png').toLowerCase();
+  const formatMethod = outputFormat === 'jpg' || outputFormat === 'jpeg' ? 'jpeg' : outputFormat;
   const outBuffer = await sharp(imageBuffer)
     .resize(outWidth, outHeight)
     .composite(compositeLayers)
-    [format === 'jpg' ? 'jpeg' : format]({ quality: 90 })
+    [formatMethod]({ quality: 90 })
     .toBuffer();
 
   return { buffer: outBuffer, width: previewWidth, height: previewHeight };
@@ -42,7 +43,7 @@ async function preview(imageBuffer, params = {}) {
 
 async function generate(imageBuffer, params = {}) {
   const image = sharp(imageBuffer);
-  const { width, height } = await image.metadata();
+  const { width, height, format: originalFormat } = await image.metadata();
   const overlay = overlayService.buildOverlay(width, height, params);
 
   const compositeLayers = [{input: overlay, blend: 'over'}];
@@ -51,7 +52,8 @@ async function generate(imageBuffer, params = {}) {
     compositeLayers.push(watermarkLayer);
   }
 
- const format = (params.outputFormat || 'png').toLowerCase();
+  const outputFormat = (params.outputFormat || originalFormat || 'png').toLowerCase();
+  const formatMethod = outputFormat === 'jpg' || outputFormat === 'jpeg' ? 'jpeg' : outputFormat;
   return sharp(imageBuffer)
     .composite(compositeLayers)
     [format === 'jpg' ? 'jpeg' : format]({ quality: 90 }) 
