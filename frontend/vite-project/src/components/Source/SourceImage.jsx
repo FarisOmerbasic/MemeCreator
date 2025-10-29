@@ -1,4 +1,3 @@
-import React from 'react'
 import '../Shared/SharedSourcePreview.css'
 export default function SourceImage({file}) {
     return ( 

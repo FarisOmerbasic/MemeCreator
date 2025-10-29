@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import './WatermarkUpload.css';
 
 export default function WatermarkUpload({config, setConfig}) {
@@ -39,7 +39,7 @@ export default function WatermarkUpload({config, setConfig}) {
       <h3 className="watermark-title">Watermark (optional)</h3>
        <input
           ref={inputRef} type="file" accept="image/png, image/jpeg"
-          style={{display:'none'}} onChange={handleFile}/>
+           onChange={handleFile}/>
       <div 
         className="watermark-zone" onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}>

@@ -56,7 +56,7 @@ async function generate(imageBuffer, params = {}) {
   const formatMethod = outputFormat === 'jpg' || outputFormat === 'jpeg' ? 'jpeg' : outputFormat;
   return sharp(imageBuffer)
     .composite(compositeLayers)
-    [format === 'jpg' ? 'jpeg' : format]({ quality: 90 }) 
+    [formatMethod]({ quality: 90 })
     .toBuffer();
 }
 

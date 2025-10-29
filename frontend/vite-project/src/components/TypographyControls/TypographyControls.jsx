@@ -1,4 +1,3 @@
-import React from 'react'
 import './TypographyControls.css'
 
 export default function TypographyControls({config,setConfig}) {

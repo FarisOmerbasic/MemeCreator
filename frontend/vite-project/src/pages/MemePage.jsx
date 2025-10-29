@@ -88,7 +88,6 @@ export default function MemePage() {
                             <div className="meme-action">
                                 <GenerateButton formData={buildFormData()} disabled={!file}/>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

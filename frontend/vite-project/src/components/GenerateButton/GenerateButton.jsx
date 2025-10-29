@@ -1,4 +1,3 @@
-import React from 'react'
 import './GenerateButton.css'
 import { useAuth0 } from '@auth0/auth0-react'
 import downloadBlob from '../../service/downloadBlob';
@@ -18,7 +17,7 @@ export default function GenerateButton({onClick, disabled, formData}) {
       const token = await getAccessTokenSilently({
         authorizationParams: { audience: import.meta.env.VITE_AUTH0_AUDIENCE }
       })
-
+      
       const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:8080';
       const response = await fetch(`${apiBase}/api/meme/generate`, {
         method: 'POST',

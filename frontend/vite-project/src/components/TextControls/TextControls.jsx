@@ -1,4 +1,3 @@
-import React from "react";
 import './TextControls.css'
 export default function TextControls({config, setConfig}) {
     return (

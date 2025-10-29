@@ -53,6 +53,9 @@ Docker-compose file is provided that is docker-compose.yaml
 docker compose up -d --build (Create .env files before running)
 To stop and remove type docker compose down
 
+## Docker success image
+![alt text](image-1.png)
+
 ## How was deployment done
 
 1) Authenticate Docker to GCR
@@ -88,4 +91,13 @@ gcloud run deploy memecreator-backend --image gcr.io/pristine-ally-471609-e1/mem
 ```
 
 7) After successful deploy you will see service URLs in the CLI output
+
+## Tests
+Tests where done using postman
+User needs to be logged to make generate request, and put token in authorization body
+For both preview and generate requests user needs to form daty with key image of type file and config of type text
+In config value user needs to enter the config they want that will later be displayed
+
+## Example test
+![alt text](image.png)
 

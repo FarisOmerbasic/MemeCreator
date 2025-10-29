@@ -1,4 +1,3 @@
-import React from 'react'
 import './AlignmentControls.css'
 
 export default function AlignmentControls({config,setConfig}) {
