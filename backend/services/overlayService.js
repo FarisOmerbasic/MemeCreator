@@ -73,8 +73,8 @@ function buildOverlay(width, height, params = {}) {
     textAnchor = 'middle';
   }
 
-  const topStartY = padding + lineHeight
-  const bottomStartY = height - padding - bottomLines.length * lineHeight;
+  const topStartY = padding;
+  const bottomStartY = height - padding - (bottomLines.length * lineHeight);
 
   const toTspans = lines => lines
     .map((ln, i) => `<tspan x="${xPos}" dy="${i === 0 ? '0' : '1.2em'}">${escapeXml(ln)}</tspan>`)
