@@ -72,8 +72,8 @@ function buildOverlay(width, height, params = {}) {
     xPos = Math.round(width / 2);
     textAnchor = 'middle';
   }
-
-  const topStartY = padding;
+  
+  const topStartY = padding - lineHeight;
   const bottomStartY = height - padding - (bottomLines.length * lineHeight);
 
   const toTspans = lines => lines
