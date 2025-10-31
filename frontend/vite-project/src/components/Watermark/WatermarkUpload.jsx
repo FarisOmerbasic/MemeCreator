@@ -12,7 +12,7 @@ export default function WatermarkUpload({config, setConfig}) {
     const file = event.target.files?.[0];
     if(!file) return;
     const reader = new FileReader();
-    reader.onload = () => setConfig({...config, watermarkImage: reader.result});
+    reader.onload = () => setConfig({...config, watermarkImage: reader.result, watermarkImageFile: file});
     reader.readAsDataURL(file);
   }
   const handleDrop = (event) => {
@@ -20,7 +20,7 @@ export default function WatermarkUpload({config, setConfig}) {
     const file = event.dataTransfer?.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setConfig({...config, watermarkImage: reader.result})
+    reader.onload = () => setConfig({...config, watermarkImage: reader.result, watermarkImageFile: file})
     reader.readAsDataURL(file);
   };
   function handlePositionChange(event) {
@@ -30,6 +30,7 @@ export default function WatermarkUpload({config, setConfig}) {
     const copy = {...config};
     delete copy.watermarkImage;
     delete copy.watermarkPosition;
+    delete copy.watermarkImageFile;
     setConfig(copy);
   }
 

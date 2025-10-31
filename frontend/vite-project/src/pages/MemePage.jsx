@@ -57,6 +57,7 @@ export default function MemePage() {
         const fd = new FormData();
         fd.append('config', JSON.stringify(config));
         if (file) fd.append('image', file)
+        if (config?.watermarkImageFile) fd.append('watermarkImage', config.watermarkImageFile);
         return fd;
     }
 
